@@ -4,7 +4,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include <assert.h>
-
+#include <math.h>
 #include <immintrin.h>
 #include <malloc.h>
 
@@ -12,6 +12,7 @@
 #define TEST_H 1024
 
 #include "impl.c"
+#include "testfun.c"
 
 static long diff_in_us(struct timespec t1, struct timespec t2)
 {
@@ -87,18 +88,16 @@ int main(int argc, char *argv[])
 
     {
         struct timespec start, end;
+
         int *src1 = (int *) memalign(32, sizeof(int) * TEST_W * TEST_H);
         int *src2 = (int *) memalign(32, sizeof(int) * TEST_W * TEST_H);
         int *out1 = (int *) memalign(32, sizeof(int) * TEST_W * TEST_H);
         int *out2 = (int *) memalign(32, sizeof(int) * TEST_W * TEST_H);
 
-        srand(time(NULL));
-        for (int i = 0; i < TEST_H; ++i) {
-            for (int j = 0; j < TEST_W; ++j) {
-                src1[i * TEST_W + j] = rand();
-                src2[i * TEST_W + j] = rand();
-            }
-        }
+        printf("src1 :\n");
+        testfun(src1,TEST_W , TEST_H);
+        printf("src2 :\n");
+        testfun(src2,TEST_W , TEST_H);
 
 #if defined(naive) || VERIFY
         clock_gettime(CLOCK_REALTIME, &start);

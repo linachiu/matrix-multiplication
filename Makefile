@@ -3,31 +3,31 @@ CFLAGS = -mavx2 --std gnu99 -O0 -Wall
 GIT_HOOKS := .git/hooks/pre-commit
 
 VERIFY ?= 0
-COMMON_SRCS := main.c impl.c
+COMMON_SRCS := main.c impl.c testfun.c
 EXECUTABLE := naive submatrix sse sse_prefetch avx avx_prefetch strassen
 
 all: $(GIT_HOOKS) $(EXECUTABLE)
 
 naive: $(COMMON_SRCS)
-	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c
+	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c -lm
 
 submatrix: $(COMMON_SRCS)
-	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c
+	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c -lm
 
 sse: $(COMMON_SRCS)
-	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c
+	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c -lm
 
 sse_prefetch: $(COMMON_SRCS)
-	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c
+	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c -lm
 
 avx: $(COMMON_SRCS)
-	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c
+	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c -lm
 
 avx_prefetch: $(COMMON_SRCS)
-	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c
+	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c -lm
 
 strassen: $(COMMON_SRCS)
-	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c
+	$(CC) $(CFLAGS) -DVERIFY=$(VERIFY) -D$@ -o $@ main.c -lm
 
 cache-test: all
 	echo 1 | sudo tee /proc/sys/vm/drop_caches && perf stat --repeat 10 -e cache-misses,cache-references,instructions,cycles ./naive
