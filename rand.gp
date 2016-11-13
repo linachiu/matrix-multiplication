@@ -1,8 +1,8 @@
 reset
-set ylabel 'time(sec)'
+set ylabel 'times'
 set xlabel 'N'
 set style fill solid
-set title 'perfomance comparison'
+set title 'number appear times'
 set term png enhanced font 'Verdana,10'
 set output 'times.png'
 
