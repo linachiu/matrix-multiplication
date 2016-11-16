@@ -14,7 +14,7 @@ int testfun(int *src1,int src_w,int src_h)
     int passcon = 0;
     int faildcon = 0;
 
-    while(passcon == 0 && faildcon < 50) {
+    while(passcon == 0 ) {
 
         int runs=0;
         int cmp= -1;
@@ -52,17 +52,20 @@ int testfun(int *src1,int src_w,int src_h)
             failflag = 1;
             //printf("runsfail!");
         }
-        min = (src_w * src_h)/32768 * 0.04 ;
-        max = (src_w * src_h)/32768 * 1.96;
+        printf("runs = %d \n",runs);
+        min = 32550 ;
+        max = 32980;
 
         if(failflag == 0) {
-            for (int i = 0; i < 32768; ++i) {
-                if(times[i] < (int)min || times[i] > (int)max+1) {
-                    printf("rangefail! have %d times %d\n",times[i],i);
-                    failflag = 1;
-                    break;
-                }
+            double x2 =0;
+            double np = 1024*1024/32768;
+            for(int i=0; i<32767; i++) {
+                x2 += (pow((times[i]-np),2)/np);
             }
+            if(x2<min || x2>max)
+                failflag =1;
+
+            printf("x^2 = %lf \n",x2);
         }
         if(failflag == 0) {
             passcon++;
