@@ -39,7 +39,7 @@ int testfun(int *src1,int src_w,int src_h)
                 cmp = tmp;
             }
         }
-
+//runs up and down
         double y = src_w * src_h;
         double m = (2 * y - 1) / 3;
         double a2 = (16 * y - 29) / 90;
@@ -55,7 +55,7 @@ int testfun(int *src1,int src_w,int src_h)
         printf("runs = %d \n",runs);
         min = 32550 ;
         max = 32980;
-
+// Chi-square test
         if(failflag == 0) {
             double x2 =0;
             double np = 1024*1024/32768;
